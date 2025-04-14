@@ -17,36 +17,19 @@ struct ContentView: View {
             BackgroundGradient(isPresented: $dark) // -> Dollar zeigt, dass es ein State ist
             VStack {
                 
-                Text("Cupertino, CA").font(.system(size:30))
-                    .multilineTextAlignment(.center).foregroundStyle(.white)
-                Image(systemName: "cloud.sun.fill").renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 180, height: 180)
-                Text("24°C").font(.system(size: 50)).foregroundStyle(.white)
-                HStack(alignment: .center, spacing: 30.0){
-                    SmallWeatherIconView(day: "MO", icon: "sun.rain.fill", temperature: "20")
-                    SmallWeatherIconView(day: "DI", icon: "sun.rain.fill", temperature: "20")
-                    SmallWeatherIconView(day: "MI", icon: "sun.rain.fill", temperature: "20")
-                    SmallWeatherIconView(day: "DO", icon: "sun.rain.fill", temperature: "20")
-                    SmallWeatherIconView(day: "FR", icon: "sun.rain.fill", temperature: "20")
-                }
-                .padding(.vertical)
+                LaregeDayIcon()
+                DaysIconRow()
                 Spacer()
                 Button {
-                    // Implement Later
-                    
                     self.dark.toggle()
-                    
-                    
                     print("Dark is \(self.dark)")
-                    
                 } label: {
                     RoundedRectangle(cornerRadius: 20).frame(width: .infinity, height: 50)
                         .foregroundColor(.white)
                         .overlay(
-                            Text("Hallo").foregroundStyle(.black)
+                            Text("Toogle Dark").foregroundStyle(.black)
                         )
-                   
                 }
-
                 Spacer()
             }
             .padding([.top, .leading, .trailing])
@@ -68,5 +51,27 @@ struct BackgroundGradient: View {
     
     var body: some View {
         LinearGradient(gradient: Gradient(colors: self.colors), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
+    }
+}
+
+struct DaysIconRow: View {
+    var body: some View {
+        HStack(alignment: .center, spacing: 30.0){
+            SmallWeatherIconView(day: "MO", icon: "sun.rain.fill", temperature: "20")
+            SmallWeatherIconView(day: "DI", icon: "sun.rain.fill", temperature: "20")
+            SmallWeatherIconView(day: "MI", icon: "sun.rain.fill", temperature: "20")
+            SmallWeatherIconView(day: "DO", icon: "sun.rain.fill", temperature: "20")
+            SmallWeatherIconView(day: "FR", icon: "sun.rain.fill", temperature: "20")
+        }
+        .padding(.vertical)
+    }
+}
+
+struct LaregeDayIcon: View {
+    var body: some View {
+        Text("Cupertino, CA").font(.system(size:30))
+            .multilineTextAlignment(.center).foregroundStyle(.white)
+        Image(systemName: "cloud.sun.fill").renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 180, height: 180)
+        Text("24°C").font(.system(size: 50)).foregroundStyle(.white)
     }
 }
