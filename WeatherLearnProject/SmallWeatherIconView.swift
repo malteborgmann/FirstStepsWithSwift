@@ -12,7 +12,7 @@ struct SmallWeatherIconView: View {
     
     let day: String
     let icon: String
-    let temperature: String
+    let temperature: Int
     
     var body: some View {
         VStack {
@@ -27,5 +27,5 @@ struct SmallWeatherIconView: View {
 }
 
 #Preview {
-    SmallWeatherIconView(day: "MO", icon: "sun.rain.fill", temperature: "20")
+    SmallWeatherIconView(day: "MO", icon: "sun.rain.fill", temperature: 20)
 }

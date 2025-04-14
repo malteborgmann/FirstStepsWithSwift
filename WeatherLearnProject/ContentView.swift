@@ -9,16 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var i: Int = 1
+    let futureData: [Forecast] = [
+        Forecast(day: "MO", icon: "sun.rain.fill", temperature: 20),
+        Forecast(day: "TU", icon: "cloud.sun.fill", temperature: 21),
+        Forecast(day: "WE", icon: "sun.max.fill", temperature: 22),
+        Forecast(day: "TH", icon: "cloud.fill", temperature: 19),
+        Forecast(day: "FR", icon: "cloud.rain.fill", temperature: 18)
+    ]
+    
     @State private var dark: Bool = false
     
     var body: some View {
         ZStack {
             BackgroundGradient(isPresented: $dark) // -> Dollar zeigt, dass es ein State ist
             VStack {
-                
                 LaregeDayIcon(temperature: 24, icon: "cloud.sun.fill", location: "Wolfsburg, DE")
-                DaysIconRow()
+                DaysIconRow(weather_upcoming_days_array: futureData)
                 Spacer()
                 Button {
                     //dark.toggle()
@@ -56,14 +62,14 @@ struct BackgroundGradient: View {
 }
 
 struct DaysIconRow: View {
+    
+    let weather_upcoming_days_array: [Forecast]
+    
     var body: some View {
-        // TODO: Get Icon Name and Temperature from Array
         HStack(alignment: .center, spacing: 30.0){
-            SmallWeatherIconView(day: "MO", icon: "sun.rain.fill", temperature: "20")
-            SmallWeatherIconView(day: "DI", icon: "sun.rain.fill", temperature: "20")
-            SmallWeatherIconView(day: "MI", icon: "sun.rain.fill", temperature: "20")
-            SmallWeatherIconView(day: "DO", icon: "sun.rain.fill", temperature: "20")
-            SmallWeatherIconView(day: "FR", icon: "sun.rain.fill", temperature: "20")
+            ForEach(weather_upcoming_days_array) {item in
+                SmallWeatherIconView(day: item.day, icon: item.icon, temperature: item.temperature)
+            }
         }
         .padding(.vertical)
     }
@@ -81,4 +87,11 @@ struct LaregeDayIcon: View {
         Image(systemName: icon).renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 180, height: 180)
         Text("\(temperature)°C").font(.system(size: 50)).foregroundStyle(.white)
     }
+}
+
+struct Forecast: Identifiable {
+    let id = UUID()          // optional, z. B. für SwiftUI-ForEach
+    let day: String
+    let icon: String
+    let temperature: Int
 }
