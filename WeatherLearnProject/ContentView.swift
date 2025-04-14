@@ -17,11 +17,12 @@ struct ContentView: View {
             BackgroundGradient(isPresented: $dark) // -> Dollar zeigt, dass es ein State ist
             VStack {
                 
-                LaregeDayIcon()
+                LaregeDayIcon(temperature: 24, icon: "cloud.sun.fill", location: "Wolfsburg, DE")
                 DaysIconRow()
                 Spacer()
                 Button {
-                    self.dark.toggle()
+                    //dark.toggle()
+                    withAnimation {dark.toggle()}
                     print("Dark is \(self.dark)")
                 } label: {
                     RoundedRectangle(cornerRadius: 20).frame(width: .infinity, height: 50)
@@ -56,6 +57,7 @@ struct BackgroundGradient: View {
 
 struct DaysIconRow: View {
     var body: some View {
+        // TODO: Get Icon Name and Temperature from Array
         HStack(alignment: .center, spacing: 30.0){
             SmallWeatherIconView(day: "MO", icon: "sun.rain.fill", temperature: "20")
             SmallWeatherIconView(day: "DI", icon: "sun.rain.fill", temperature: "20")
@@ -68,10 +70,15 @@ struct DaysIconRow: View {
 }
 
 struct LaregeDayIcon: View {
+    
+    let temperature: Int
+    let icon: String
+    let location: String
+    
     var body: some View {
-        Text("Cupertino, CA").font(.system(size:30))
+        Text(location).font(.system(size:30))
             .multilineTextAlignment(.center).foregroundStyle(.white)
-        Image(systemName: "cloud.sun.fill").renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 180, height: 180)
-        Text("24°C").font(.system(size: 50)).foregroundStyle(.white)
+        Image(systemName: icon).renderingMode(.original).resizable().aspectRatio(contentMode: .fit).frame(width: 180, height: 180)
+        Text("\(temperature)°C").font(.system(size: 50)).foregroundStyle(.white)
     }
 }
